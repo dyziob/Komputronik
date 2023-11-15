@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: my-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: login_system
+      MYSQL_USER: shop_admin
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: my-phpmyadmin-container
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+        - "8888:80"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
